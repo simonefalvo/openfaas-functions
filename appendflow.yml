@@ -1,0 +1,25 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  appendflow:
+    lang: python3
+    handler: ./appendflow
+    image: smvfal/appendflow:latest
+    environment:
+      gateway_hostname: gateway.openfaas
+  appender1:
+    lang: python3
+    handler: ./appender
+    image: smvfal/appender:latest
+    environment:
+      write_debug: true
+      message: " - handled by 1"
+  appender2:
+    lang: python3
+    handler: ./appender
+    image: smvfal/appender:latest
+    environment:
+      write_debug: true
+      message: " - handled by 2"
