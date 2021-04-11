@@ -1,0 +1,11 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  wordcount-mapper:
+    lang: golang-http
+    handler: ./wordcount-mapper
+    image: smvfal/wordcount-mapper:latest
+    environment:
+      write_debug: true
