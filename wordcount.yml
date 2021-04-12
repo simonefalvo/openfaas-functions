@@ -7,31 +7,81 @@ functions:
     lang: golang-http
     handler: ./wordcount
     image: smvfal/wordcount:latest
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
     environment:
       write_debug: true
       NUM_WORKERS: 2
       GATEWAY_URL: http://gateway.openfaas:8080
+    labels:
+      com.openfaas.scale.min: 1
+      com.openfaas.scale.max: 30
+    annotations:
+      prometheus.io.scrape: true
+      prometheus.io.port: 8081
+      com.openfaas.schedulername: custom-scheduler
   wordcount-mapper0:
     lang: golang-http
     handler: ./wordcount-mapper
     image: smvfal/wordcount-mapper:latest
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
     environment:
       write_debug: true
+    labels:
+      com.openfaas.scale.min: 1
+      com.openfaas.scale.max: 30
+    annotations:
+      prometheus.io.scrape: true
+      prometheus.io.port: 8081
+      com.openfaas.schedulername: custom-scheduler
   wordcount-mapper1:
     lang: golang-http
     handler: ./wordcount-mapper
     image: smvfal/wordcount-mapper:latest
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
     environment:
       write_debug: true
+    labels:
+      com.openfaas.scale.min: 1
+      com.openfaas.scale.max: 30
+    annotations:
+      prometheus.io.scrape: true
+      prometheus.io.port: 8081
+      com.openfaas.schedulername: custom-scheduler
   wordcount-reducer0:
     lang: golang-http
     handler: ./wordcount-reducer
     image: smvfal/wordcount-reducer:latest
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
     environment:
       write_debug: true
+    labels:
+      com.openfaas.scale.min: 1
+      com.openfaas.scale.max: 30
+    annotations:
+      prometheus.io.scrape: true
+      prometheus.io.port: 8081
+      com.openfaas.schedulername: custom-scheduler
   wordcount-reducer1:
     lang: golang-http
     handler: ./wordcount-reducer
     image: smvfal/wordcount-reducer:latest
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
     environment:
       write_debug: true
+    labels:
+      com.openfaas.scale.min: 1
+      com.openfaas.scale.max: 30
+    annotations:
+      prometheus.io.scrape: true
+      prometheus.io.port: 8081
+      com.openfaas.schedulername: custom-scheduler

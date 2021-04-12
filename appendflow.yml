@@ -7,19 +7,49 @@ functions:
     lang: python3
     handler: ./appendflow
     image: smvfal/appendflow:latest
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
     environment:
       gateway_hostname: gateway.openfaas
+    labels:
+      com.openfaas.scale.min: 1
+      com.openfaas.scale.max: 30
+    annotations:
+      prometheus.io.scrape: true
+      prometheus.io.port: 8081
+      com.openfaas.schedulername: custom-scheduler
   appender1:
     lang: python3
     handler: ./appender
     image: smvfal/appender:latest
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
     environment:
       write_debug: true
       message: " - handled by 1"
+    labels:
+      com.openfaas.scale.min: 1
+      com.openfaas.scale.max: 30
+    annotations:
+      prometheus.io.scrape: true
+      prometheus.io.port: 8081
+      com.openfaas.schedulername: custom-scheduler
   appender2:
     lang: python3
     handler: ./appender
     image: smvfal/appender:latest
+    limits:
+      memory: "128Mi"
+      cpu: "250m"
     environment:
       write_debug: true
       message: " - handled by 2"
+    labels:
+      com.openfaas.scale.min: 1
+      com.openfaas.scale.max: 30
+    annotations:
+      prometheus.io.scrape: true
+      prometheus.io.port: 8081
+      com.openfaas.schedulername: custom-scheduler
