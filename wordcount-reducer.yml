@@ -1,0 +1,12 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  wordcount-reducer:
+    lang: golang-http
+    handler: ./wordcount-reducer
+    image: smvfal/wordcount-reducer:latest
+    environment:
+      write_debug: true
+
