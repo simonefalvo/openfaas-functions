@@ -13,10 +13,6 @@ import (
 // Handle a function invocation
 func Handle(req handler.Request) (handler.Response, error) {
 
-	type Message struct {
-		Result map[string]int `json:"result"`
-	}
-
 	var errorResponse = handler.Response{
 		Body:       nil,
 		StatusCode: http.StatusInternalServerError,
@@ -41,14 +37,13 @@ func Handle(req handler.Request) (handler.Response, error) {
 		return errorResponse, err
 	}
 
-	message := Message{result}
-	jsonMessage, err := json.MarshalIndent(message, "", "  ")
+	jsonResult, err := json.MarshalIndent(result, "", "  ")
 	if err != nil {
 		return errorResponse, err
 	}
 
 	return handler.Response{
-		Body:       jsonMessage,
+		Body:       jsonResult,
 		StatusCode: http.StatusOK,
 	}, err
 }
