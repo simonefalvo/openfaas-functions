@@ -11,12 +11,17 @@ functions:
       memory: "128Mi"
       cpu: "250m"
     environment:
+      write_timeout: 2m
+      read_timeout: 2m
+      exec_timeout: 2m
       write_debug: true
       NUM_WORKERS: 2
       GATEWAY_URL: http://gateway.openfaas:8080
     labels:
       com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 30
+      com.openfaas.scale.max: 10
+      com.openfaas.scale.factor: 10
+      com.openfaas.scale.zero: true
     annotations:
       prometheus.io.scrape: true
       prometheus.io.port: 8081
@@ -32,7 +37,9 @@ functions:
       write_debug: true
     labels:
       com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 30
+      com.openfaas.scale.max: 10
+      com.openfaas.scale.factor: 10
+      com.openfaas.scale.zero: true
     annotations:
       prometheus.io.scrape: true
       prometheus.io.port: 8081
@@ -48,7 +55,9 @@ functions:
       write_debug: true
     labels:
       com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 30
+      com.openfaas.scale.max: 10
+      com.openfaas.scale.factor: 10
+      com.openfaas.scale.zero: true
     annotations:
       prometheus.io.scrape: true
       prometheus.io.port: 8081
@@ -64,7 +73,9 @@ functions:
       write_debug: true
     labels:
       com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 30
+      com.openfaas.scale.max: 10
+      com.openfaas.scale.factor: 10
+      com.openfaas.scale.zero: true
     annotations:
       prometheus.io.scrape: true
       prometheus.io.port: 8081
@@ -80,7 +91,9 @@ functions:
       write_debug: true
     labels:
       com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 30
+      com.openfaas.scale.max: 10
+      com.openfaas.scale.factor: 10
+      com.openfaas.scale.zero: true
     annotations:
       prometheus.io.scrape: true
       prometheus.io.port: 8081

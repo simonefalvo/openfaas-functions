@@ -11,10 +11,16 @@ functions:
       memory: "128Mi"
       cpu: "250m"
     environment:
+      write_debug: true
+      write_timeout: 1m
+      read_timeout: 1m
+      exec_timeout: 1m
       gateway_hostname: gateway.openfaas
     labels:
       com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 30
+      com.openfaas.scale.max: 10
+      com.openfaas.scale.factor: 10
+      com.openfaas.scale.zero: true
     annotations:
       prometheus.io.scrape: true
       prometheus.io.port: 8081
@@ -31,7 +37,9 @@ functions:
       message: " - handled by 1"
     labels:
       com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 30
+      com.openfaas.scale.max: 10
+      com.openfaas.scale.factor: 10
+      com.openfaas.scale.zero: true
     annotations:
       prometheus.io.scrape: true
       prometheus.io.port: 8081
@@ -48,7 +56,9 @@ functions:
       message: " - handled by 2"
     labels:
       com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 30
+      com.openfaas.scale.max: 10
+      com.openfaas.scale.factor: 10
+      com.openfaas.scale.zero: true
     annotations:
       prometheus.io.scrape: true
       prometheus.io.port: 8081
