@@ -14,6 +14,11 @@ import (
 	handler "github.com/openfaas/templates-sdk/go-http"
 )
 
+type event struct {
+	Timestamp float64 `json:"timestamp"`
+	Data      string  `json:"data"`
+}
+
 // Handle a function invocation
 func Handle(req handler.Request) (handler.Response, error) {
 
@@ -33,8 +38,13 @@ func Handle(req handler.Request) (handler.Response, error) {
 	}
 	log.Printf("number of workers: %v", numWorkers)
 
+	e := event{}
+	if err = json.Unmarshal(req.Body, &e); err != nil {
+		log.Fatal(err)
+	}
+
 	log.Printf("splitting data into %v chunks...", numWorkers)
-	chunks := SplitData(req.Body, numWorkers)
+	chunks := SplitData([]byte(e.Data), numWorkers)
 
 	// call mappers
 	channel := make(chan []byte)
