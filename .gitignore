@@ -3,3 +3,5 @@ template/
 
 # intellij stuff
 .idea/
+template
+build
