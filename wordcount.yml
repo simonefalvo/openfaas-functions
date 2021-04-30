@@ -5,6 +5,8 @@ provider:
 functions:
   wordcount:
     lang: golang-http
+    build_args:
+      GO111MODULE: on
     handler: ./wordcount
     image: smvfal/wordcount:latest
     limits:
@@ -28,6 +30,8 @@ functions:
       com.openfaas.schedulername: custom-scheduler
   wordcount-mapper:
     lang: golang-http
+    build_args:
+      GO111MODULE: on
     handler: ./wordcount-mapper
     image: smvfal/wordcount-mapper:latest
     limits:
@@ -46,6 +50,8 @@ functions:
       com.openfaas.schedulername: custom-scheduler
   wordcount-reducer:
     lang: golang-http
+    build_args:
+      GO111MODULE: on
     handler: ./wordcount-reducer
     image: smvfal/wordcount-reducer:latest
     limits:

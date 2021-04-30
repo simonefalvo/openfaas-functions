@@ -22,3 +22,8 @@ Build, publish and deploy all in one command:
 ```bash
 faas-cli up -f <stack.yml>
 ```
+
+### golang-http template
+For _golang-http_ functions you can manage dependencies in one of the following ways:
+* To use Go modules without vendoring, add `--build-arg GO111MODULE=on` to `faas-cli build`.
+* For traditional vendoring with `dep` give no argument, or add `--build-arg GO111MODULE=off` to `faas-cli build`
