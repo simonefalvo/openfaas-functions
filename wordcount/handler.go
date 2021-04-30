@@ -44,15 +44,13 @@ func Handle(req handler.Request) (handler.Response, error) {
 	}
 
 	log.Printf("splitting data into %v chunks...", numWorkers)
-	chunks := SplitData([]byte(e.Data), numWorkers)
+	chunks := splitData([]byte(e.Data), numWorkers)
 
 	// call mappers
 	channel := make(chan []byte)
-	for w := 0; w < numWorkers; w++ {
-		log.Printf("calling function mapper%v...", w)
-		go callFunction(gatewayUrl+"/function/wordcount-mapper"+strconv.Itoa(w),
-			[]byte(chunks[w]),
-			channel)
+	for i, chunk := range chunks {
+		log.Printf("calling function mapper for chunk %v...", i)
+		go callFunction(gatewayUrl+"/function/wordcount-mapper", []byte(chunk), channel)
 	}
 
 	// receive map results and merge them
@@ -73,26 +71,24 @@ func Handle(req handler.Request) (handler.Response, error) {
 	// split reducers' input
 	log.Print("assigning words to reducers...")
 	wordCounter := 0
-	reduceInput := make([]map[string][]int, numWorkers)
-	for i := range reduceInput {
+	reduceInputs := make([]map[string][]int, numWorkers)
+	for i := range reduceInputs {
 		// init array of maps
-		reduceInput[i] = make(map[string][]int)
+		reduceInputs[i] = make(map[string][]int)
 	}
 	for word, countList := range mergedMapResults {
-		reduceInput[wordCounter%numWorkers][word] = countList
+		reduceInputs[wordCounter%numWorkers][word] = countList
 		wordCounter++
 	}
 
 	// call reducers
-	for w := 0; w < numWorkers; w++ {
-		input, err := json.MarshalIndent(reduceInput[w], "", "  ")
+	for i, reduceInput := range reduceInputs {
+		input, err := json.MarshalIndent(reduceInput, "", "  ")
 		if err != nil {
 			log.Fatal(err)
 		}
-		log.Printf("calling function reducer%v...", w)
-		go callFunction(gatewayUrl+"/function/wordcount-reducer"+strconv.Itoa(w),
-			input,
-			channel)
+		log.Printf("calling function reducer for input %v...", i)
+		go callFunction(gatewayUrl+"/function/wordcount-reducer", input, channel)
 	}
 
 	// receive reduce results and merge them
@@ -148,7 +144,7 @@ func callFunction(url string, data []byte, c chan []byte) {
 	c <- result
 }
 
-func SplitData(data []byte, n int) []string {
+func splitData(data []byte, n int) []string {
 
 	reader := bytes.NewReader(data)
 	dataSize := int64(len(data))

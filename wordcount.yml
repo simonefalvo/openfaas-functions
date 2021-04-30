@@ -8,8 +8,8 @@ functions:
     handler: ./wordcount
     image: smvfal/wordcount:latest
     limits:
-      memory: "128Mi"
-      cpu: "250m"
+      memory: "64Mi"
+      cpu: "150m"
     environment:
       write_timeout: 2m
       read_timeout: 2m
@@ -26,73 +26,37 @@ functions:
       prometheus.io.scrape: true
       prometheus.io.port: 8081
       com.openfaas.schedulername: custom-scheduler
-  wordcount-mapper0:
+  wordcount-mapper:
     lang: golang-http
     handler: ./wordcount-mapper
     image: smvfal/wordcount-mapper:latest
     limits:
-      memory: "128Mi"
-      cpu: "250m"
+      memory: "64Mi"
+      cpu: "100m"
     environment:
       write_debug: true
     labels:
       com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 10
-      com.openfaas.scale.factor: 10
+      com.openfaas.scale.max: 15
+      com.openfaas.scale.factor: 5
       com.openfaas.scale.zero: true
     annotations:
       prometheus.io.scrape: true
       prometheus.io.port: 8081
       com.openfaas.schedulername: custom-scheduler
-  wordcount-mapper1:
-    lang: golang-http
-    handler: ./wordcount-mapper
-    image: smvfal/wordcount-mapper:latest
-    limits:
-      memory: "128Mi"
-      cpu: "250m"
-    environment:
-      write_debug: true
-    labels:
-      com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 10
-      com.openfaas.scale.factor: 10
-      com.openfaas.scale.zero: true
-    annotations:
-      prometheus.io.scrape: true
-      prometheus.io.port: 8081
-      com.openfaas.schedulername: custom-scheduler
-  wordcount-reducer0:
+  wordcount-reducer:
     lang: golang-http
     handler: ./wordcount-reducer
     image: smvfal/wordcount-reducer:latest
     limits:
-      memory: "128Mi"
-      cpu: "250m"
+      memory: "64Mi"
+      cpu: "100m"
     environment:
       write_debug: true
     labels:
       com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 10
-      com.openfaas.scale.factor: 10
-      com.openfaas.scale.zero: true
-    annotations:
-      prometheus.io.scrape: true
-      prometheus.io.port: 8081
-      com.openfaas.schedulername: custom-scheduler
-  wordcount-reducer1:
-    lang: golang-http
-    handler: ./wordcount-reducer
-    image: smvfal/wordcount-reducer:latest
-    limits:
-      memory: "128Mi"
-      cpu: "250m"
-    environment:
-      write_debug: true
-    labels:
-      com.openfaas.scale.min: 1
-      com.openfaas.scale.max: 10
-      com.openfaas.scale.factor: 10
+      com.openfaas.scale.max: 15
+      com.openfaas.scale.factor: 5
       com.openfaas.scale.zero: true
     annotations:
       prometheus.io.scrape: true
